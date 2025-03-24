@@ -1,0 +1,78 @@
+.order-detail-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: #f9f9f9;
+  min-height: calc(100vh - 240px); /* Ajusta para excluir el header */
+}
+
+.order-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+.order-card h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+.order-info p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.order-info p strong {
+  color: #333;
+}
+
+.order-items {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.order-items li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.order-items li:last-child {
+  border-bottom: none;
+}
+
+.order-actions {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.back-button {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background: #6a11cb;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+.back-button:hover {
+  background: #2575fc;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 2rem;
+}

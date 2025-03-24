@@ -1,27 +1,39 @@
 {
-  "name": "@repo/ui",
-  "version": "0.0.0",
-  "private": true,
-  "exports": {
-    "./*": "./src/*.tsx"
-  },
+  "name": "ui-ecommerce",
+  "version": "1.0.3",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "lint": "eslint . --max-warnings 0",
-    "generate:component": "turbo gen react-component",
-    "check-types": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
-    "@turbo/gen": "^2.4.4",
-    "@types/node": "^22.13.10",
-    "@types/react": "19.0.10",
-    "@types/react-dom": "19.0.4",
-    "eslint": "^9.22.0",
-    "typescript": "5.8.2"
+    "build": "tsc && copyfiles -u 1 \"src/**/*.css\" dist && copyfiles -u 1 \"stories/**/*.css\" dist/stories",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "3",
+    "@storybook/addon-essentials": "8.6.7",
+    "@storybook/addon-onboarding": "8.6.7",
+    "@storybook/blocks": "8.6.7",
+    "@storybook/experimental-addon-test": "8.6.7",
+    "@storybook/react": "^8.6.7",
+    "@storybook/react-vite": "8.6.7",
+    "@storybook/test": "8.6.7",
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-v8": "^3.0.9",
+    "copyfiles": "^2.4.1",
+    "playwright": "^1.51.1",
+    "prop-types": "15.8.1",
+    "storybook": "8.6.7",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.0",
+    "vitest": "^3.0.9"
   }
 }
