@@ -1,0 +1,42 @@
+{
+    "Comment": "Distribución para POC ecommerce",
+    "Enabled": true,
+    "CallerReference": "ecommerce-poc-27-10-2023113300",
+    "Origins": {
+        "Quantity": 1,
+        "Items": [
+            {
+                "Id": "S3-origin",
+                "DomainName": "app-ecommerce-test.s3.amazonaws.com",
+                "S3OriginConfig": {
+                    "OriginAccessIdentity": ""
+                }
+            }
+        ]
+    },
+    "DefaultCacheBehavior": {
+        "TargetOriginId": "S3-origin",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "AllowedMethods": {
+            "Quantity": 2,
+            "Items": ["GET", "HEAD"],
+            "CachedMethods": {
+                "Quantity": 2,
+                "Items": ["GET", "HEAD"]
+            }
+        },
+        "TrustedSigners": {
+            "Enabled": false,
+            "Quantity": 0
+        },
+        "MinTTL": 0, 
+        "Compress": true,
+        "ForwardedValues": {
+            "QueryString": false,
+            "Cookies": {
+                "Forward": "none"
+            }
+        }
+    },
+    "DefaultRootObject": "index.html"
+}

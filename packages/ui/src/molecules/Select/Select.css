@@ -1,0 +1,93 @@
+.select-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  width: 100%;
+}
+
+.select {
+  appearance: none;
+  width: 100%;
+  font-family: var(--font-family-base);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--foreground);
+  background-color: var(--background);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-base);
+  padding: var(--spacing-2) var(--spacing-3);
+  padding-right: var(--spacing-8);
+  cursor: pointer;
+  transition: var(--transition-base);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-2) center;
+  background-size: var(--spacing-4);
+}
+
+/* Tamaños */
+.select.sm {
+  font-size: var(--text-sm);
+  padding: var(--spacing-1) var(--spacing-2);
+  padding-right: var(--spacing-6);
+}
+
+.select.lg {
+  font-size: var(--text-lg);
+  padding: var(--spacing-3) var(--spacing-4);
+  padding-right: var(--spacing-10);
+}
+
+/* Estados */
+.select:hover {
+  border-color: var(--gray-400);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 1px var(--primary-500);
+}
+
+.select:disabled {
+  background-color: var(--gray-100);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.select.error {
+  border-color: var(--error-500);
+}
+
+.select.error:focus {
+  box-shadow: 0 0 0 1px var(--error-500);
+}
+
+.select-error {
+  font-size: var(--text-sm);
+  color: var(--error-500);
+  margin-top: var(--spacing-1);
+}
+
+/* Dark mode */
+[data-theme="dark"] .select {
+  background-color: var(--gray-800);
+  border-color: var(--gray-700);
+}
+
+[data-theme="dark"] .select:hover {
+  border-color: var(--gray-600);
+}
+
+[data-theme="dark"] .select:disabled {
+  background-color: var(--gray-700);
+}
+
+/* Opciones */
+.select option {
+  padding: var(--spacing-2);
+}
+
+[data-theme="dark"] .select option {
+  background-color: var(--gray-800);
+}

@@ -65,7 +65,7 @@
   font-size: 0.9rem;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .footer {
     padding: var(--spacing-lg) 0 var(--spacing-md);
   }

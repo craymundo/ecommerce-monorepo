@@ -1,11 +1,11 @@
 import React, { Suspense, useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import AppRoutes from './config/routes';
-import ErrorFallback from './components/common/ErrorFallback';
-import LoadingSpinner from './components/common/LoadingSpinner';
+import AppRoutes from './routes/routes';
+import ErrorFallback from './components/common/error-fallback/ErrorFallback';
+import LoadingSpinner from './components/common/loading-spinner/LoadingSpinner';
 import { ThemeProvider } from './context/ThemeContext';
 import { useProductStore } from './store/useProductStore';
-import './assets/styles/App.css';
+import './styles/App.css';
 
 const App: React.FC = () => {
   const initializeProducts = useProductStore(state => state.initializeProducts);

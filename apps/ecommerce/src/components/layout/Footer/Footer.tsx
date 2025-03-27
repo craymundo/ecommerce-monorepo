@@ -20,14 +20,14 @@ const Footer: React.FC = () => {
         <div className="footer-section">
           <h3>Contacto</h3>
           <ul>
-            <li>Email: info@ecommerce.com</li>
-            <li>Teléfono: (123) 456-7890</li>
-            <li>Dirección: Calle Principal 123</li>
+            <li>Email: calvarador17@gmail.com</li>
+            <li>Teléfono: (+51) 958649975</li>
+            <li>Dirección: Lima - Miraflores</li>
           </ul>
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Ecommerce. Todos los derechos reservados.</p>
+        <p>&copy; {new Date().getFullYear()} Tienda Virtual. Todos los derechos reservados.</p>
       </div>
     </footer>
   );

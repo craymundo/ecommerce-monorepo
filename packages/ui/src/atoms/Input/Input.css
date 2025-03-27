@@ -1,0 +1,204 @@
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  width: 100%;
+}
+
+.input-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--gray-600);
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-field {
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-3);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  color: var(--gray-900);
+  transition: var(--transition-base);
+  background-color: white;
+}
+
+.input-field:hover {
+  border-color: var(--gray-300);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+/* Estados de error */
+.input-wrapper.has-error .input-field {
+  border-color: var(--error-500);
+}
+
+.input-wrapper.has-error .input-field:focus {
+  box-shadow: 0 0 0 3px var(--error-100);
+}
+
+.input-message {
+  font-size: var(--text-xs);
+  margin-top: var(--spacing-1);
+}
+
+.input-message.error {
+  color: var(--error-500);
+}
+
+/* Iconos */
+.input-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--spacing-8);
+  height: 100%;
+  color: var(--gray-500);
+  pointer-events: none;
+}
+
+.input-icon.left {
+  left: 0;
+}
+
+.input-icon.right {
+  right: 0;
+}
+
+.input-field.has-left-icon {
+  padding-left: var(--spacing-8);
+}
+
+.input-field.has-right-icon {
+  padding-right: var(--spacing-8);
+}
+
+/* Select específico */
+select.input-field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-3) center;
+  background-size: var(--spacing-4);
+  padding-right: var(--spacing-8);
+}
+
+/* Estados deshabilitados */
+.input-field:disabled {
+  background-color: var(--gray-50);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Dark mode */
+[data-theme="dark"] .input-field {
+  background-color: var(--gray-800);
+  border-color: var(--gray-700);
+  color: var(--gray-100);
+}
+
+[data-theme="dark"] .input-label {
+  color: var(--gray-300);
+}
+
+[data-theme="dark"] .input-field:hover {
+  border-color: var(--gray-600);
+}
+
+[data-theme="dark"] .input-field:disabled {
+  background-color: var(--gray-700);
+}
+
+/* ... código existente ... */
+
+/* Tamaños de input */
+.input-sm {
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--text-sm);
+  height: 32px;
+}
+
+.input-md {
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--text-base);
+  height: 40px;
+}
+
+.input-lg {
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: var(--text-lg);
+  height: 48px;
+}
+
+/* Ajustes de contenedor por tamaño */
+.input-container-sm .input-icon {
+  width: var(--spacing-6);
+}
+
+.input-container-md .input-icon {
+  width: var(--spacing-8);
+}
+
+.input-container-lg .input-icon {
+  width: var(--spacing-10);
+}
+
+/* Ajustes de padding cuando hay iconos */
+.input-sm.has-left-icon {
+  padding-left: var(--spacing-6);
+}
+
+.input-sm.has-right-icon {
+  padding-right: var(--spacing-6);
+}
+
+.input-md.has-left-icon {
+  padding-left: var(--spacing-8);
+}
+
+.input-md.has-right-icon {
+  padding-right: var(--spacing-8);
+}
+
+.input-lg.has-left-icon {
+  padding-left: var(--spacing-10);
+}
+
+.input-lg.has-right-icon {
+  padding-right: var(--spacing-10);
+}
+
+/* Ajustes de label por tamaño */
+.input-wrapper .input-label {
+  font-size: var(--text-sm);
+}
+
+.input-container-sm .input-label {
+  font-size: var(--text-xs);
+}
+
+.input-container-lg .input-label {
+  font-size: var(--text-base);
+}
+
+/* Ajustes de mensaje por tamaño */
+.input-sm + .input-message {
+  font-size: var(--text-xs);
+}
+
+.input-lg + .input-message {
+  font-size: var(--text-sm);
+}
+
+/* ... resto del código existente ... */

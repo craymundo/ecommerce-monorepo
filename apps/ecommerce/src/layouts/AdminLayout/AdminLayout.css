@@ -1,28 +1,32 @@
 .admin-layout {
   display: flex;
   min-height: 100vh;
-  width: 100%;
-  background-color: var(--background-color);
-}
-
-.admin-content {
-  flex: 1;
-  width: 100%; 
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
+  background-color: #f3f4f6;
 }
 
 .admin-main {
   flex: 1;
-  padding: 2rem;
-  background-color: var(--background-color-light);
-  width: 100%;
+  transition: margin-left 0.3s ease;
+  margin-left: 250px;
+  min-width: 0;
 }
 
-@media (max-width: 768px) {
+.admin-main.sidebar-collapsed {
+  margin-left: 0;
+}
+
+.admin-content {
+  padding: 2rem;
+  margin-top: 64px;
+}
+
+@media (width <= 768px) {
   .admin-main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .admin-content {
     padding: 1rem;
   }
 } 

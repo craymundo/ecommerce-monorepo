@@ -16,7 +16,6 @@ export const useProductStore = create<ProductStore>()(
           if (storedProducts) {
             set({ products: JSON.parse(storedProducts) });
           } else {
-            // Si no hay productos en localStorage, usar los productos iniciales
             set({ products: initialProducts });
             localStorage.setItem("products", JSON.stringify(initialProducts));
           }
@@ -24,15 +23,23 @@ export const useProductStore = create<ProductStore>()(
 
         updateStock: (productId: number, quantity: number) => {
           const { products } = get();
-          const updatedProducts = products.map((product) => {
-            if (product.id === productId) {
-              const newStock = product.stock - quantity;
-              if (newStock < 0) {
-                throw new Error("Stock insuficiente");
-              }
-              return { ...product, stock: newStock };
+          const product = products.find((p) => p.id === productId);
+
+          if (!product) {
+            throw new Error("Producto no encontrado");
+          }
+
+          if (quantity > 0 && product.stock < quantity) {
+            throw new Error("Stock insuficiente");
+          }
+
+          const updatedStock = product.stock - quantity;
+
+          const updatedProducts = products.map((p) => {
+            if (p.id === productId) {
+              return { ...p, stock: updatedStock };
             }
-            return product;
+            return p;
           });
 
           set({ products: updatedProducts });

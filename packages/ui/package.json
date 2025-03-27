@@ -1,39 +1,83 @@
 {
   "name": "ui-ecommerce",
-  "version": "1.0.3",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "1.0.7",
+  "description": "Librería de componentes UI moderna y accesible para React",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "style": "./dist/style.css",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./style.css": "./dist/style.css"
+  },
   "scripts": {
-    "build": "tsc && copyfiles -u 1 \"src/**/*.css\" dist && copyfiles -u 1 \"stories/**/*.css\" dist/stories",
+    "dev": "vite",
+   "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "dependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "vite-plugin-dts": "^4.5.3"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3",
     "@storybook/addon-essentials": "8.6.7",
-    "@storybook/addon-onboarding": "8.6.7",
-    "@storybook/blocks": "8.6.7",
+    "@storybook/addon-onboarding": "^8.6.7",
+    "@storybook/addon-viewport": "^8.6.7",
+    "@storybook/blocks": "^8.6.7",
+    "@storybook/builder-webpack5": "^8.6.7",
     "@storybook/experimental-addon-test": "8.6.7",
-    "@storybook/react": "^8.6.7",
+    "@storybook/react": "8.6.7",
     "@storybook/react-vite": "8.6.7",
     "@storybook/test": "8.6.7",
-    "@types/node": "^22.13.10",
+    "@types/node": "^17.0.15",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "@vitejs/plugin-react": "^4.2.1",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-v8": "^3.0.9",
-    "copyfiles": "^2.4.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "eslint-plugin-storybook": "^0.8.0",
     "playwright": "^1.51.1",
     "prop-types": "15.8.1",
     "storybook": "8.6.7",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2",
     "vite": "^6.2.0",
+    "vite-plugin-svgr": "^4.2.0",
     "vitest": "^3.0.9"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "design-system",
+    "typescript"
+  ],
+  "author": "Cesar Alvarado",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -1,76 +1,104 @@
-import { useCartStore } from "../../store/cartStore";
+import { useCartStore } from "../../store/";
 import { Link } from "react-router-dom";
 import "./CartPage.css";
+import imageNotFound from "../../assets/image-not-found-icon.svg";
 
 const CartPage = () => {
-  const { cart, removeFromCart, clearCart } = useCartStore();
+  const { items, total, subtotal, tax, removeItem, clearCart, updateQuantity } = useCartStore();
 
-  const totalPrice = cart
-    .reduce((acc, item) => acc + item.price * (item.quantity ?? 1), 0)
-    .toFixed(2);
+  const handleQuantityChange = (productId: number, newQuantity: number) => {
+    if (newQuantity > 0) {
+      try {
+        updateQuantity(productId, newQuantity);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <div className="cart-container">
-      <header className="cart-header">
-        <h1>Carrito de Compras</h1>
-        <Link to="/login" className="login-link">Iniciar Sesión</Link>
-      </header>
       <div className="cart-content">
-        {cart.length === 0 ? (
+        <h1 className="cart-title">Carrito de Compras</h1>
+        
+        {items.length === 0 ? (
           <div className="empty-cart">
-            <p>Tu carrito está vacío.</p>
-            <Link to="/" className="back-to-catalog">Ir al Catálogo de Productos</Link>
+            <div className="empty-cart-icon">🛒</div>
+            <h2>Tu carrito está vacío</h2>
+            <p>¿No sabes qué comprar? ¡Miles de productos te esperan!</p>
+            <Link to="/catalog" className="button-primary">
+              Continuar Comprando
+            </Link>
           </div>
         ) : (
-          <>
-            <table className="cart-table">
-              <thead>
-                <tr>
-                  <th>Imagen</th>
-                  <th>Producto</th>
-                  <th>Precio</th>
-                  <th>Cantidad</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cart.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      <img
-                        src="https://via.placeholder.com/100"
-                        alt={item.name}
-                        className="product-image"
-                      />
-                    </td>
-                    <td>{item.name}</td>
-                    <td>${item.price.toFixed(2)}</td>
-                    <td>{item.quantity}</td>
-                    <td>
+          <div className="cart-grid">
+            <div className="cart-items">
+              {items.map((item) => (
+                <div key={item.id} className="cart-item">
+                  <div className="item-image">
+                    <img src={imageNotFound} alt={item.name} />
+                  </div>
+                  <div className="item-details">
+                    <h3>{item.name}</h3>
+                    <p className="item-price">${item.price.toFixed(2)}</p>
+                    <div className="item-actions">
+                      <div className="quantity-controls">
+                        <button
+                          onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                          className="quantity-button"
+                          disabled={item.quantity <= 1}
+                        >
+                          -
+                        </button>
+                        <span className="quantity">{item.quantity}</span>
+                        <button
+                          onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                          className="quantity-button"
+                        >
+                          +
+                        </button>
+                      </div>
                       <button
-                        onClick={() => removeFromCart(item.id)}
+                        onClick={() => removeItem(item.id)}
                         className="remove-button"
                       >
                         Eliminar
                       </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
             <div className="cart-summary">
-              <h2>Total: ${totalPrice}</h2>
+              <h2>Resumen de la Orden</h2>
+              <div className="summary-details">
+                <div className="summary-row">
+                  <span>Subtotal</span>
+                  <span>${subtotal.toFixed(2)}</span>
+                </div>
+                <div className="summary-row">
+                  <span>Impuestos</span>
+                  <span>${tax.toFixed(2)}</span>
+                </div>
+                <div className="summary-row total">
+                  <span>Total</span>
+                  <span>${total.toFixed(2)}</span>
+                </div>
+              </div>
               <div className="cart-actions">
-                <button onClick={clearCart} className="clear-cart-button">
+                <Link to="/checkout" className="button-primary">
+                  Proceder al Pago
+                </Link>
+                <button onClick={clearCart} className="button-secondary">
                   Vaciar Carrito
                 </button>
-                <Link to="/checkout" className="checkout-button">
-                  Ir a Pagar
+                <Link to="/catalog" className="button-link">
+                  Seguir Comprando
                 </Link>
               </div>
-              <Link to="/catalog" className="back-to-catalog">Ir al Catálogo de Productos</Link>
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>

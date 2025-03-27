@@ -8,33 +8,57 @@ export const useCartStore = create<CartStore>()(
     persist(
       (set, get) => ({
         items: [],
+        subtotal: 0,
+        tax: 0,
+        total: 0,
+
+        calculateTotals: () => {
+          const items = get().items;
+          const subtotal = items.reduce(
+            (sum, item) => sum + item.price * item.quantity,
+            0
+          );
+          const tax = items.reduce(
+            (sum, item) => sum + item.price * item.quantity * item.tax,
+            0
+          );
+          const total = subtotal + tax;
+
+          set({ subtotal, tax, total });
+        },
 
         addItem: (productId: number) => {
           try {
             const product = useProductStore.getState().getProduct(productId);
             if (!product) throw new Error("Producto no encontrado");
 
+            if (product.stock <= 0) {
+              throw new Error("Stock insuficiente");
+            }
+
             const items = get().items;
             const existingItem = items.find((item) => item.id === productId);
 
             if (existingItem) {
-              // Verificar stock antes de incrementar
+              if (product.stock < 1) {
+                throw new Error("Stock insuficiente");
+              }
               useProductStore.getState().updateStock(productId, 1);
 
-              set({
-                items: items.map((item) =>
+              set((state) => {
+                const newItems = state.items.map((item) =>
                   item.id === productId
                     ? { ...item, quantity: item.quantity + 1 }
                     : item
-                ),
+                );
+                return { items: newItems };
               });
             } else {
-              // Verificar stock antes de agregar
               useProductStore.getState().updateStock(productId, 1);
 
-              set({
+              set((state) => ({
                 items: [
-                  ...items,
+                  ...state.items,
                   {
                     id: product.id,
                     name: product.name,
@@ -43,8 +67,9 @@ export const useCartStore = create<CartStore>()(
                     tax: product.tax,
                   },
                 ],
-              });
+              }));
             }
+            get().calculateTotals();
           } catch (error) {
             console.error("Error al agregar al carrito:", error);
             throw error;
@@ -54,12 +79,12 @@ export const useCartStore = create<CartStore>()(
         removeItem: (productId: number) => {
           const item = get().items.find((i) => i.id === productId);
           if (item) {
-            // Restaurar el stock al eliminar del carrito
             try {
               useProductStore.getState().updateStock(productId, -item.quantity);
-              set({
-                items: get().items.filter((item) => item.id !== productId),
-              });
+              set((state) => ({
+                items: state.items.filter((i) => i.id !== productId),
+              }));
+              get().calculateTotals();
             } catch (error) {
               console.error("Error al eliminar del carrito:", error);
               throw error;
@@ -70,18 +95,24 @@ export const useCartStore = create<CartStore>()(
         updateQuantity: (productId: number, newQuantity: number) => {
           const items = get().items;
           const item = items.find((i) => i.id === productId);
+          const product = useProductStore.getState().getProduct(productId);
 
-          if (item) {
+          if (item && product) {
             const quantityDiff = newQuantity - item.quantity;
+            const newStock = product.stock - quantityDiff;
+
+            if (newStock < 0) {
+              throw new Error("Stock insuficiente para la cantidad solicitada");
+            }
+
             try {
               useProductStore.getState().updateStock(productId, quantityDiff);
-              set({
-                items: items.map((item) =>
-                  item.id === productId
-                    ? { ...item, quantity: newQuantity }
-                    : item
+              set((state) => ({
+                items: state.items.map((i) =>
+                  i.id === productId ? { ...i, quantity: newQuantity } : i
                 ),
-              });
+              }));
+              get().calculateTotals();
             } catch (error) {
               console.error("Error al actualizar cantidad:", error);
               throw error;
@@ -90,33 +121,19 @@ export const useCartStore = create<CartStore>()(
         },
 
         clearCart: () => {
-          // Restaurar todo el stock al vaciar el carrito
           get().items.forEach((item) => {
             useProductStore.getState().updateStock(item.id, -item.quantity);
           });
-          set({ items: [] });
-        },
-
-        get subtotal() {
-          return get().items.reduce(
-            (sum, item) => sum + item.price * item.quantity,
-            0
-          );
-        },
-
-        get tax() {
-          return get().items.reduce(
-            (sum, item) => sum + item.price * item.quantity * item.tax,
-            0
-          );
-        },
-
-        get total() {
-          return get().subtotal + get().tax;
+          set({ items: [], subtotal: 0, tax: 0, total: 0 });
         },
       }),
       {
         name: "cart-storage",
+        onRehydrateStorage: () => (state) => {
+          if (state) {
+            state.calculateTotals();
+          }
+        },
       }
     )
   )

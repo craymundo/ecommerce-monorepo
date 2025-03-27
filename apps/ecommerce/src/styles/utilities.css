@@ -1,0 +1,71 @@
+/* Layout */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+  max-width: 1280px;
+}
+
+/* Flexbox */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+}
+
+.gap-4 {
+  gap: var(--spacing-md);
+}
+
+/* Espaciado */
+.p-4 {
+  padding: var(--spacing-md);
+}
+
+.m-4 {
+  margin: var(--spacing-md);
+}
+
+/* Tipografía */
+.text-sm {
+  font-size: var(--text-sm);
+}
+
+.text-lg {
+  font-size: var(--text-lg);
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+/* Bordes */
+.rounded {
+  border-radius: var(--radius-md);
+}
+
+.border {
+  border: 1px solid var(--gray-200);
+}
+
+/* Sombras */
+.shadow {
+  box-shadow: var(--shadow-md);
+} 

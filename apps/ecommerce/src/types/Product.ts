@@ -6,7 +6,6 @@ export interface Product {
   price: number;
   tax: number;
   image?: string;
-  description?: string;
 }
 
 export interface ProductStore {

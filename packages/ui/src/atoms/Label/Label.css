@@ -1,0 +1,28 @@
+.label {
+  display: inline-block;
+  font-family: var(--font-family-base);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--gray-700);
+  margin-bottom: var(--spacing-1);
+}
+
+.label.required::after {
+  content: "*";
+  color: var(--error-500);
+  margin-left: var(--spacing-1);
+}
+
+.label.disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+}
+
+/* Dark mode */
+[data-theme="dark"] .label {
+  color: var(--gray-300);
+}
+
+[data-theme="dark"] .label.disabled {
+  color: var(--gray-500);
+}

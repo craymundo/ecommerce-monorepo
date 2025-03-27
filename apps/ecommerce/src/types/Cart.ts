@@ -15,4 +15,5 @@ export interface CartStore {
   total: number;
   subtotal: number;
   tax: number;
+  calculateTotals: () => void;
 }
