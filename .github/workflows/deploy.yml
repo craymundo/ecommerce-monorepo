@@ -64,8 +64,14 @@ jobs:
         # Agrega aquí otras variables de entorno si son necesarias
 
     - name: Configure AWS Credentials
-      run: |
-        aws sts get-caller-identity
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Verify AWS credentials
+      run: aws sts get-caller-identity
 
     - name: Deploy to S3
       if: github.ref == 'refs/heads/main'
