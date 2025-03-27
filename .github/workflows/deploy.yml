@@ -62,6 +62,29 @@ jobs:
       env:
         VITE_APP_ENV: production
         # Agrega aquí otras variables de entorno si son necesarias
+    - name: Configure AWS Credentials Previously
+      run: |
+        # Debugging
+        echo "Verificando variables..."
+        echo "AWS_ACCESS_KEY_ID está definido: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}"
+        echo "AWS_SECRET_ACCESS_KEY está definido: ${{ secrets.AWS_SECRET_ACCESS_KEY != '' }}"
+        
+        # Verificar environment
+        env | grep -i aws || true
+        
+        # Intentar configurar AWS
+        if [ -n "${{ secrets.AWS_ACCESS_KEY_ID }}" ] && [ -n "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+          aws configure set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
+          aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          aws configure set default.region "us-east-1"
+          echo "Configuración de AWS completada"
+        else
+          echo "Error: Credenciales de AWS no disponibles"
+          echo "Por favor, verifica que los siguientes secretos estén configurados en GitHub:"
+          echo "- AWS_ACCESS_KEY_ID"
+          echo "- AWS_SECRET_ACCESS_KEY"
+          exit 1
+        fi
 
     - name: Configure AWS Credentials
       run: |
