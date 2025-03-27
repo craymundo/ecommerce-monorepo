@@ -5,12 +5,12 @@ on:
     branches: [ main ]
     paths:
       - 'apps/ecommerce/**'
-      - 'scripts/**'
+      - '.github/**'
   pull_request:
     branches: [ main ]
     paths:
       - 'apps/ecommerce/**'
-      - 'scripts/**'
+      - 'github/**'
 
 jobs:
   build-and-deploy:
