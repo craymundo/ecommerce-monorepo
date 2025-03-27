@@ -19,6 +19,11 @@ jobs:
       run:
         working-directory: apps/ecommerce
 
+    env:
+      AWS_ACCESS_KEY_ID: AKIAUWHICA6R5YZKUJXU
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-1
+
     steps:
     - uses: actions/checkout@v4
 
@@ -58,37 +63,16 @@ jobs:
         VITE_APP_ENV: production
         # Agrega aquí otras variables de entorno si son necesarias
 
-    - name: Update AWS CLI
-      run: |
-        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        unzip awscliv2.zip
-        sudo ./aws/install --update
-
     - name: Configure AWS Credentials
-      env:
-        AWS_ACCESS_KEY_ID: AKIAUWHICA6R5YZKUJXU
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: us-east-1
       run: |
-        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-        aws configure set default.region $AWS_DEFAULT_REGION
         aws sts get-caller-identity
 
     - name: Deploy to S3
       if: github.ref == 'refs/heads/main'
-      env:
-        AWS_ACCESS_KEY_ID: AKIAUWHICA6R5YZKUJXU
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: us-east-1
       run: |
         aws s3 sync dist/ s3://app-ecommerce-test --delete
 
     - name: Invalidate CloudFront
       if: github.ref == 'refs/heads/main'
-      env:
-        AWS_ACCESS_KEY_ID: AKIAUWHICA6R5YZKUJXU
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: us-east-1
       run: |
         aws cloudfront create-invalidation --distribution-id E1SYRPK2TG9M7T --paths "/*"
