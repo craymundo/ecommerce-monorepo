@@ -87,31 +87,28 @@ jobs:
         fi
 
     - name: Configure AWS Credentials
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: us-east-1
       run: |
-        # Verificar que las credenciales no están vacías
-        if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
-          echo "Error: AWS_ACCESS_KEY_ID está vacío"
+        if [ -n "$AWS_ACCESS_KEY_ID" ] && [ -n "$AWS_SECRET_ACCESS_KEY" ]; then
+          echo "Configurando AWS CLI..."
+          aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
+          aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
+          aws configure set default.region "$AWS_DEFAULT_REGION"
+          echo "AWS CLI configurado correctamente"
+        else
+          echo "Error: Credenciales faltantes"
           exit 1
         fi
-        
-        if [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
-          echo "Error: AWS_SECRET_ACCESS_KEY está vacío"
-          exit 1
-        fi
-        
-        # Mostrar los primeros 4 caracteres del access key para verificar
-        echo "Access Key ID comienza con: ${AWS_ACCESS_KEY_ID:0:4}..."
-        
-        # Configurar AWS
-        aws configure set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
-        aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-        aws configure set default.region "us-east-1"
-        
-        # Verificar la configuración
-        aws configure list
 
     - name: Deploy to S3
       if: github.ref == 'refs/heads/main'
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: us-east-1
       run: |
         aws s3 sync dist/ s3://app-ecommerce-test --delete
 
