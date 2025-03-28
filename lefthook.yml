@@ -1,8 +1,0 @@
-# lefthook.yml
-pre-push:
-  parallel: true
-  commands:
-    eslint:
-      run: pnpm run lint
-    types:
-      run: pnpm run typecheck
