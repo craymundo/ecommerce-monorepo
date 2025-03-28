@@ -1,84 +1,120 @@
-# Turborepo starter
+# 🛍️ Ecommerce Monorepo
 
-This Turborepo starter is maintained by the Turborepo core team.
+Monorepo que contiene una aplicación de comercio electrónico y sus dependencias compartidas, construido con Turborepo.
 
-## Using this example
+## 📦 Estructura del Monorepo
 
-Run the following command:
-
-```sh
-npx create-turbo@latest
+```bash
+ecommerce-monorepo/
+├── apps/
+│   └── ecommerce/          # Aplicación principal de ecommerce
+├── packages/
+│   ├── ui-ecommerce/       # Biblioteca de componentes UI compartidos
+│   └── utils-ecommerce/    # Utilidades y funciones compartidas
 ```
 
-## What's inside?
+## 🛠️ Stack Tecnológico
 
-This Turborepo includes the following packages/apps:
+- **Gestor de Monorepo:** Turborepo
+- **Package Manager:** pnpm
+- **Core:**
+  - TypeScript
+  - React
+  - Vite
+- **Calidad de Código:**
+  - ESLint
+  - Prettier
+  - TypeScript strict mode
 
-### Apps and Packages
+## 🚀 Comenzando
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### Prerrequisitos
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- Node.js >= 18
+- pnpm >= 8
+- Git
 
-### Utilities
+### Instalación
 
-This Turborepo has some additional tools already setup for you:
+```bash
+# Clonar el repositorio
+git clone [url-del-repositorio]
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+# Instalar dependencias
+pnpm install
 
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
+# Iniciar desarrollo
 pnpm dev
 ```
 
-### Remote Caching
+## 📝 Scripts Disponibles
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+| Comando | Descripción |
+|---------|-------------|
+| `pnpm dev` | Inicia todos los proyectos en modo desarrollo |
+| `pnpm build` | Construye todos los proyectos |
+| `pnpm lint` | Ejecuta el linter en todos los proyectos |
+| `pnpm test` | Ejecuta los tests en todos los proyectos |
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+### Comandos Específicos
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+```bash
+# Ejecutar solo el proyecto de ecommerce
+pnpm --filter ecommerce dev
 
+# Construir solo los componentes UI
+pnpm --filter ui-ecommerce build
+
+# Ejecutar tests en utils
+pnpm --filter utils-ecommerce test
 ```
-cd my-turborepo
+
+## 📚 Workspace Packages
+
+### 🎯 Ecommerce (`apps/ecommerce`)
+Aplicación principal de comercio electrónico.
+- **Tech Stack:** React + Vite + TypeScript
+- **Puerto de desarrollo:** 5173
+- [Ver documentación específica](./apps/ecommerce/README.md)
+
+### 🎨 UI Library (`packages/ui-ecommerce`)
+Biblioteca de componentes UI reutilizables.
+- Componentes base
+- Sistema de diseño
+- Temas y estilos compartidos
+- [Ver documentación específica](./packages/ui-ecommerce/README.md)
+
+## 🔄 Flujo de Trabajo
+
+### Desarrollo Local
+
+```bash
+# Crear nueva feature
+git checkout -b feature/nombre-feature
+
+# Commit con conventional commits
+git commit -m "feat(scope): descripción"
+```
+
+### Cache Remoto
+
+Este proyecto utiliza el cache remoto de Turborepo para optimizar los builds:
+
+```bash
+# Configurar cache remoto
 npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
 npx turbo link
 ```
 
-## Useful Links
+## 📈 Scripts de Análisis
 
-Learn more about the power of Turborepo:
+- `pnpm analyze`: Análisis de bundles
+- `pnpm dep-graph`: Visualización de dependencias entre paquetes
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## 🤝 Contribución
+
+1. Fork del repositorio
+2. Crea tu rama de feature
+3. Commit de tus cambios
+4. Push a la rama
+5. Abre un Pull Request

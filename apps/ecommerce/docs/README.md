@@ -15,12 +15,12 @@
 
 1. Crear un bucket S3:
 ```bash
-aws s3api create-bucket --bucket tu-bucket-nombre --region us-east-1
+aws s3api create-bucket --bucket app-ecommerce-test --region us-east-1
 ```
 
 2. Habilitar el hosting estático en S3:
 ```bash
-aws s3 website s3://tu-bucket-nombre/ --index-document index.html --error-document index.html
+aws s3 website s3://app-ecommerce-test/ --index-document index.html --error-document index.html
 ```
 
 3. Crear una distribución CloudFront:
@@ -36,8 +36,6 @@ Crear los siguientes secrets en GitHub:
 - `AWS_SECRET_ACCESS_KEY`
 - `AWS_S3_BUCKET`
 - `AWS_CLOUDFRONT_DISTRIBUTION_ID`
-- `VITE_API_URL`
-- `VITE_ANALYTICS_ID`
 
 ## Despliegue Manual
 
@@ -69,7 +67,7 @@ Pasos del pipeline:
 Para hacer rollback a una versión anterior:
 
 ```bash
-aws s3 cp s3://tu-bucket-nombre/backup/build-{DATE} s3://tu-bucket-nombre/ --recursive
+aws s3 cp s3://app-ecommerce-test/backup/build-{DATE} s3://app-ecommerce-test/ --recursive
 aws cloudfront create-invalidation --distribution-id {DISTRIBUTION_ID} --paths "/*"
 ```
 ```
