@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./CheckoutPage.css";
 import { CheckoutFormData, FormErrors } from "../../types/hooks.types";
 import { useCountries } from "../../hooks/api/useCountries";
+import { Button } from "ui-ecommerce";
 
 const CheckoutPage = () => {
   const { items, total, subtotal, tax, clearCart } = useCartStore();
@@ -309,14 +310,17 @@ const CheckoutPage = () => {
               </div>
             </div>
 
-            <button
-              type="submit"
-              className={`checkout-button ${isSubmitting ? 'loading' : ''}`}
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Procesando...' : 'Confirmar Pedido'}
-            </button>
+           
+
+            <Button
+                            variant="primary"
+                            size="md"
+                            fullWidth={true}
+                            onClick={handleSubmit}
+                            disabled={isSubmitting}
+                          >
+                            {isSubmitting ? 'Procesando...' : 'Confirmar Pedido'}
+                          </Button>
           </div>
         </div>
       </div>

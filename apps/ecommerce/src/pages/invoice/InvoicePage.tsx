@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import './InvoicePage.css';
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import "./InvoicePage.css";
+import { Button } from "ui-ecommerce";
 
 interface OrderItem {
   id: number;
@@ -35,31 +36,31 @@ const InvoicePage = () => {
   useEffect(() => {
     const fetchOrder = () => {
       try {
-        const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        const orders = JSON.parse(localStorage.getItem("orders") || "[]");
         let foundOrder: Order | undefined;
-        
+
         if (orderId) {
           foundOrder = orders.find((o: Order) => o.id === Number(orderId));
         } else {
-          const lastOrderId = localStorage.getItem('lastOrderId');
+          const lastOrderId = localStorage.getItem("lastOrderId");
           if (lastOrderId) {
-            foundOrder = orders.find((o: Order) => o.id === Number(lastOrderId));
+            foundOrder = orders.find(
+              (o: Order) => o.id === Number(lastOrderId)
+            );
           } else {
             foundOrder = orders[orders.length - 1];
           }
         }
-        
+
         if (!foundOrder) {
-          navigate('/404');
+          navigate("/404");
           return;
         }
 
-
-
         setOrder(foundOrder);
       } catch (error) {
-        console.error('Error al cargar la orden:', error);
-        navigate('/404');
+        console.error("Error al cargar la orden:", error);
+        navigate("/404");
       } finally {
         setLoading(false);
       }
@@ -80,12 +81,12 @@ const InvoicePage = () => {
   if (!order) return null;
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('es-ES', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(dateString).toLocaleDateString("es-ES", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -96,9 +97,9 @@ const InvoicePage = () => {
   return (
     <div className="invoice-container">
       <div className="invoice-actions">
-        <button onClick={handlePrint} className="print-button">
+        <Button variant="primary" size="md" onClick={handlePrint}>
           Imprimir Factura
-        </button>
+        </Button>
       </div>
 
       <div className="invoice-content">
@@ -129,7 +130,9 @@ const InvoicePage = () => {
             <h3>Facturar a:</h3>
             <p className="customer-name">{order.name}</p>
             <p>{order.address}</p>
-            <p>{order.city}, {order.zipCode}</p>
+            <p>
+              {order.city}, {order.zipCode}
+            </p>
             <p>{order.country}</p>
             <p>Email: {order.email}</p>
             <p>Tel: {order.phone}</p>
@@ -152,8 +155,13 @@ const InvoicePage = () => {
                     <td>{item.name}</td>
                     <td>{item.quantity}</td>
                     <td>${item.price.toFixed(2)}</td>
-                    <td>${(item.price * item.quantity * item.tax).toFixed(2)}</td>
-                    <td>${(item.price * item.quantity * (1 + item.tax)).toFixed(2)}</td>
+                    <td>
+                      ${(item.price * item.quantity * item.tax).toFixed(2)}
+                    </td>
+                    <td>
+                      $
+                      {(item.price * item.quantity * (1 + item.tax)).toFixed(2)}
+                    </td>
                   </tr>
                 ))}
               </tbody>

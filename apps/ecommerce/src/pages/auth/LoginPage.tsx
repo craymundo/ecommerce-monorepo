@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import "./LoginPage.css";
+import { Button } from "ui-ecommerce";
+import arrowLeft from './../../assets/icons/arrow-left.svg';
 
 const LoginPage = () => {
   const [form, setForm] = useState({ username: "", password: "" });
@@ -23,9 +25,7 @@ const LoginPage = () => {
     <div className="login-container">
       <div className="login-wrapper">
         <Link to="/" className="back-to-store">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
+        <img src={arrowLeft} alt="Regresar"  />
           Regresar a la tienda
         </Link>
         
@@ -45,7 +45,10 @@ const LoginPage = () => {
             onChange={(e) => setForm({ ...form, password: e.target.value })}
             required
           />
-          <button type="submit">Ingresar</button>
+          
+              <Button variant="primary" size="md" type="submit">
+              Ingresar
+                  </Button>
         </form>
       </div>
     </div>

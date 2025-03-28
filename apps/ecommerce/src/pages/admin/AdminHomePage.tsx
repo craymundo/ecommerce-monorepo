@@ -2,6 +2,11 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './AdminHomePage.css';
 
+import recentOrders from './../../assets/icons/recent-orders.svg';
+import dollarTotal from './../../assets/icons/dollar-total.svg';
+import ordersTotal from './../../assets/icons/orders-total.svg';
+import dollarAverage from './../../assets/icons/dollar-average.svg';
+
 interface Order {
   id: number;
   date: string;
@@ -64,9 +69,9 @@ const AdminHomePage = () => {
       <div className="stats-grid">
         <div className="stat-card">
           <div className="stat-icon orders-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
+           
+
+            <img src={ordersTotal} alt="Total Ordenes"  className='icon-class' />
           </div>
           <div className="stat-info">
             <h3>Total Órdenes</h3>
@@ -76,9 +81,8 @@ const AdminHomePage = () => {
 
         <div className="stat-card">
           <div className="stat-icon revenue-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+            
+            <img src={dollarTotal} alt="Valor Promedio"  className='icon-class'/>
           </div>
           <div className="stat-info">
             <h3>Ingresos Totales</h3>
@@ -88,9 +92,8 @@ const AdminHomePage = () => {
 
         <div className="stat-card">
           <div className="stat-icon average-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
+            
+            <img src={dollarAverage} alt="Valor Promedio"  className='icon-class' />
           </div>
           <div className="stat-info">
             <h3>Valor Promedio</h3>
@@ -130,17 +133,10 @@ const AdminHomePage = () => {
           <h2>Acciones Rápidas</h2>
           <div className="actions-grid">
             <Link to="/admin/orders" className="action-button">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
+            <img src={recentOrders} alt="Gestionar Ordenes" className='icon-class' />
               Gestionar Órdenes
             </Link>
-            <Link to="/admin/products" className="action-button">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-              </svg>
-              Gestionar Productos
-            </Link>
+            
           </div>
         </div>
       </div>

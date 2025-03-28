@@ -28,9 +28,10 @@
 
 .back-to-store:hover {
   opacity: 0.9;
+  color: white;
 }
 
-.back-to-store svg {
+.back-to-store img {
   width: 1.25rem;
   height: 1.25rem;
 }

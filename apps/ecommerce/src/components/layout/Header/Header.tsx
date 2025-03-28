@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCartStore } from "../../../store/useCartStore";
 import cartIcon from "../../../assets/icons/cart.svg";
+import navIcon from "../../../assets/icons/navicon.svg";
+import closeIcon from "../../../assets/icons/close-icon.svg";
 
 import "./Header.css";
 import CartDropdown from "../../common/cart-dropdown/CartDropdown";
@@ -36,7 +38,11 @@ const Header: React.FC = () => {
           onClick={toggleMenu}
           aria-label="Menú"
         >
-          {isMenuOpen ? "✕" : "☰"}
+          {isMenuOpen ? (
+            <img src={closeIcon} alt="Cierre Menú" />
+          ) : (
+            <img src={navIcon} alt="Menú" />
+          )}
         </button>
         <nav className={`header-nav ${isMenuOpen ? "active" : ""}`}>
           <Link
@@ -46,17 +52,12 @@ const Header: React.FC = () => {
           >
             Catálogo
           </Link>
-          <div 
-            className="cart-icon-container" 
-            onClick={toggleCart}
-          >
+          <div className="cart-icon-container" onClick={toggleCart}>
             <img src={cartIcon} alt="Carrito" className="cart-icon-img" />
             {items.length > 0 && (
               <span className="cart-count">{items.length}</span>
             )}
-            {isCartOpen && (
-              <CartDropdown onClose={closeCart} />
-            )}
+            {isCartOpen && <CartDropdown onClose={closeCart} />}
           </div>
           <Link
             to="/login"

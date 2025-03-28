@@ -1,7 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCartStore } from "../../../store/useCartStore";
+import { useNavigate } from "react-router-dom";
 import "./CartDropdown.css";
+import { Button } from "ui-ecommerce";
 
 interface CartDropdownProps {
   onClose?: () => void;
@@ -10,6 +12,7 @@ interface CartDropdownProps {
 const CartDropdown: React.FC<CartDropdownProps> = ({ onClose = () => {} }) => {
   const { items, total, removeItem } = useCartStore();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,7 +43,7 @@ const CartDropdown: React.FC<CartDropdownProps> = ({ onClose = () => {} }) => {
     <div ref={dropdownRef} className="cart-dropdown">
       <div className="cart-dropdown-content">
         <h3 className="cart-dropdown-title">Carrito de Compras</h3>
-        
+
         {items.length > 0 ? (
           <>
             <ul className="cart-items-list">
@@ -52,7 +55,7 @@ const CartDropdown: React.FC<CartDropdownProps> = ({ onClose = () => {} }) => {
                       ${item.price} x {item.quantity}
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={() => removeItem(item.id)}
                     className="cart-item-remove"
                   >
@@ -61,19 +64,24 @@ const CartDropdown: React.FC<CartDropdownProps> = ({ onClose = () => {} }) => {
                 </li>
               ))}
             </ul>
-            
+
             <div className="cart-total-section">
               <div className="cart-total-container">
                 <span className="cart-total-label">Total:</span>
                 <span className="cart-total-amount">${total.toFixed(2)}</span>
               </div>
-              
-              <Link 
-                to="/cart" 
-                className="cart-view-button"
+
+              <Button
+                variant="primary"
+                size="md"
+                fullWidth={true}
+                onClick={() => {
+                  navigate("/checkout");
+                  onClose();
+                }}
               >
                 Ver Carrito Completo
-              </Link>
+              </Button>
             </div>
           </>
         ) : (

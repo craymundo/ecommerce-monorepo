@@ -51,6 +51,11 @@
   color: white;
 }
 
+.icon-class {
+  width: 1.5rem;
+  height: 1.5rem; 
+}
+
 .orders-icon {
   background: #3b82f6;
 }
