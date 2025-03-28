@@ -2,15 +2,15 @@ name: Deploy Ecommerce App
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'apps/ecommerce/**'
-      - '.github/**'
+      - "apps/ecommerce/**"
+      - ".github/**"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'apps/ecommerce/**'
-      - 'github/**'
+      - "apps/ecommerce/**"
+      - "github/**"
 
 jobs:
   build-and-deploy:
@@ -25,94 +25,94 @@ jobs:
       AWS_DEFAULT_REGION: us-east-1
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.14.0'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.14.0"
 
-    - name: Install pnpm
-      uses: pnpm/action-setup@v3
-      with:
-        version: 9.0.0
-        run_install: false
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.0.0
+          run_install: false
 
-    - name: Get pnpm store directory
-      shell: bash
-      run: |
-        echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
 
-    - name: Setup pnpm cache
-      uses: actions/cache@v4
-      with:
-        path: ${{ env.STORE_PATH }}
-        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-pnpm-store-
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
-    - name: Install dependencies
-      run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
-    - name: Run tests
-      run: pnpm test
+      - name: Run tests
+        run: pnpm test
 
-    - name: Build
-      run: pnpm build:production
-      env:
-        VITE_APP_ENV: production
-        # Agrega aquí otras variables de entorno si son necesarias
-    - name: Configure AWS Credentials Previously
-      run: |
-        # Debugging
-        echo "Verificando variables..."
-        echo "AWS_ACCESS_KEY_ID está definido: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}"
-        echo "AWS_SECRET_ACCESS_KEY está definido: ${{ secrets.AWS_SECRET_ACCESS_KEY != '' }}"
-        
-        # Verificar environment
-        env | grep -i aws || true
-        
-        # Intentar configurar AWS
-        if [ -n "${{ secrets.AWS_ACCESS_KEY_ID }}" ] && [ -n "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
-          aws configure set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
-          aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          aws configure set default.region "us-east-1"
-          echo "Configuración de AWS completada"
-        else
-          echo "Error: Credenciales de AWS no disponibles"
-          echo "Por favor, verifica que los siguientes secretos estén configurados en GitHub:"
-          echo "- AWS_ACCESS_KEY_ID"
-          echo "- AWS_SECRET_ACCESS_KEY"
-          exit 1
-        fi
+      - name: Build
+        run: pnpm build:production
+        env:
+          VITE_APP_ENV: production
+          # Agrega aquí otras variables de entorno si son necesarias
+      - name: Configure AWS Credentials Previously
+        run: |
+          # Debugging
+          echo "Verificando variables..."
+          echo "AWS_ACCESS_KEY_ID está definido: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}"
+          echo "AWS_SECRET_ACCESS_KEY está definido: ${{ secrets.AWS_SECRET_ACCESS_KEY != '' }}"
 
-    - name: Configure AWS Credentials
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: us-east-1
-      run: |
-        if [ -n "$AWS_ACCESS_KEY_ID" ] && [ -n "$AWS_SECRET_ACCESS_KEY" ]; then
-          echo "Configurando AWS CLI..."
-          aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
-          aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
-          aws configure set default.region "$AWS_DEFAULT_REGION"
-          echo "AWS CLI configurado correctamente"
-        else
-          echo "Error: Credenciales faltantes"
-          exit 1
-        fi
+          # Verificar environment
+          env | grep -i aws || true
 
-    - name: Deploy to S3
-      if: github.ref == 'refs/heads/main'
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: us-east-1
-      run: |
-        aws s3 sync dist/ s3://app-ecommerce-test --delete
+          # Intentar configurar AWS
+          if [ -n "${{ secrets.AWS_ACCESS_KEY_ID }}" ] && [ -n "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+            aws configure set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
+            aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+            aws configure set default.region "us-east-1"
+            echo "Configuración de AWS completada"
+          else
+            echo "Error: Credenciales de AWS no disponibles"
+            echo "Por favor, verifica que los siguientes secretos estén configurados en GitHub:"
+            echo "- AWS_ACCESS_KEY_ID"
+            echo "- AWS_SECRET_ACCESS_KEY"
+            exit 1
+          fi
 
-    - name: Invalidate CloudFront
-      if: github.ref == 'refs/heads/main'
-      run: |
-        aws cloudfront create-invalidation --distribution-id E1SYRPK2TG9M7T --paths "/*"
+      - name: Configure AWS Credentials
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+        run: |
+          if [ -n "$AWS_ACCESS_KEY_ID" ] && [ -n "$AWS_SECRET_ACCESS_KEY" ]; then
+            echo "Configurando AWS CLI..."
+            aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
+            aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
+            aws configure set default.region "$AWS_DEFAULT_REGION"
+            echo "AWS CLI configurado correctamente"
+          else
+            echo "Error: Credenciales faltantes"
+            exit 1
+          fi
+
+      - name: Deploy to S3
+        if: github.ref == 'refs/heads/main'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+        run: |
+          aws s3 sync dist/ s3://app-ecommerce-test --delete
+
+      - name: Invalidate CloudFront
+        if: github.ref == 'refs/heads/main'
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/*"
