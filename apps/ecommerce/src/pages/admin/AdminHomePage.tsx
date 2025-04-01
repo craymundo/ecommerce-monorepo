@@ -6,6 +6,7 @@ import recentOrders from './../../assets/icons/recent-orders.svg';
 import dollarTotal from './../../assets/icons/dollar-total.svg';
 import ordersTotal from './../../assets/icons/orders-total.svg';
 import dollarAverage from './../../assets/icons/dollar-average.svg';
+import { localStorageUtils } from '../../utils/localStorageUtils';
 
 interface Order {
   id: number;
@@ -31,7 +32,7 @@ const AdminHomePage = () => {
 
   useEffect(() => {
     const calculateStats = () => {
-      const orders: Order[] = JSON.parse(localStorage.getItem('orders') || '[]');
+      const orders = localStorageUtils.getItem<Order[]>('orders') || [];
       
       const totalOrders = orders.length;
       const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);

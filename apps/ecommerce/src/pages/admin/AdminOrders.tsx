@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./AdminOrders.css";
 
 import search from './../../assets/icons/search.svg';
+import { localStorageUtils } from "../../utils/localStorageUtils";
 
 interface Order {
   id: string;
@@ -22,7 +23,7 @@ const AdminOrders = () => {
   }>({ key: 'date', direction: 'desc' });
 
   useEffect(() => {
-    const storedOrders = JSON.parse(localStorage.getItem("orders") || "[]");
+    const storedOrders = localStorageUtils.getItem<Order[]>("orders") || [];
     setOrders(storedOrders);
   }, []);
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./InvoicePage.css";
 import { Button } from "ui-ecommerce";
+import { localStorageUtils } from "../../utils/localStorageUtils";
 
 interface OrderItem {
   id: number;
@@ -36,7 +37,7 @@ const InvoicePage = () => {
   useEffect(() => {
     const fetchOrder = () => {
       try {
-        const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+        const orders = localStorageUtils.getItem<Order[]>("orders") || [];
         let foundOrder: Order | undefined;
 
         if (orderId) {

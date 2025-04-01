@@ -2,6 +2,13 @@
 
 Monorepo que contiene una aplicación de comercio electrónico y sus dependencias compartidas, construido con Turborepo.
 
+URL[PROD]:https://d3jpaj62n2snuc.cloudfront.net/
+
+URL[panel]: https://d3jpaj62n2snuc.cloudfront.net/login
+usuario: admin
+password: admin
+
+
 ## 📦 Estructura del Monorepo
 
 ```bash

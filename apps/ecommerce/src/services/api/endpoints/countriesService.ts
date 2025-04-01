@@ -1,10 +1,21 @@
 import { API_CONFIG } from "../config";
 import { handleApiResponse } from "../interceptors";
 import { Country } from "../../../types/api.types";
+import { ApiCache } from "../cache";
+
+const CACHE_KEY = "american-countries";
 
 export class CountriesService {
+  private static cache: ApiCache = ApiCache.getInstance();
+
   static async getAmericanCountries(): Promise<string[]> {
     try {
+      // Intentar obtener datos del cache
+      const cachedData = this.cache.get<string[]>(CACHE_KEY);
+      if (cachedData) {
+        return cachedData;
+      }
+
       const response = await fetch(
         `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.AMERICAS}`
       );
@@ -13,7 +24,12 @@ export class CountriesService {
       }
 
       const countries: Country[] = await handleApiResponse<Country[]>(response);
-      return this.formatCountries(countries);
+      const formattedCountries = this.formatCountries(countries);
+
+      // Guardar en cache
+      this.cache.set(CACHE_KEY, formattedCountries);
+
+      return formattedCountries;
     } catch (error) {
       throw this.handleError(error);
     }

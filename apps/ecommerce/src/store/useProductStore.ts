@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { ProductStore } from "../types/Product";
 import { initialProducts } from "../data/initialProducts";
+import { localStorageUtils } from "../utils/localStorageUtils";
 
 export const useProductStore = create<ProductStore>()(
   devtools(
@@ -12,12 +13,13 @@ export const useProductStore = create<ProductStore>()(
         error: null,
 
         initializeProducts: () => {
-          const storedProducts = localStorage.getItem("products");
+          const storedProducts =
+            localStorageUtils.getItem<ProductStore["products"]>("products");
           if (storedProducts) {
-            set({ products: JSON.parse(storedProducts) });
+            set({ products: storedProducts });
           } else {
             set({ products: initialProducts });
-            localStorage.setItem("products", JSON.stringify(initialProducts));
+            localStorageUtils.setItem("products", initialProducts);
           }
         },
 
@@ -43,7 +45,7 @@ export const useProductStore = create<ProductStore>()(
           });
 
           set({ products: updatedProducts });
-          localStorage.setItem("products", JSON.stringify(updatedProducts));
+          localStorageUtils.setItem("products", updatedProducts);
         },
 
         getProduct: (productId: number) => {

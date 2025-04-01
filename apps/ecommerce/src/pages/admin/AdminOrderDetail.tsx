@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./AdminOrderDetail.css";
+import { localStorageUtils } from "../../utils/localStorageUtils";
 
 interface OrderItem {
   id: number;
@@ -34,7 +35,7 @@ const AdminOrderDetail = () => {
   useEffect(() => {
     const fetchOrder = () => {
       try {
-        const storedOrders: Order[] = JSON.parse(localStorage.getItem("orders") || "[]");
+        const storedOrders = localStorageUtils.getItem<Order[]>("orders") || [];
         const foundOrder = storedOrders.find((o) => o.id === parseInt(id || "0"));
         setOrder(foundOrder || null);
       } catch (error) {

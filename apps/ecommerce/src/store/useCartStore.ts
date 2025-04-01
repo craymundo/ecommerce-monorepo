@@ -121,9 +121,6 @@ export const useCartStore = create<CartStore>()(
         },
 
         clearCart: () => {
-          get().items.forEach((item) => {
-            useProductStore.getState().updateStock(item.id, -item.quantity);
-          });
           set({ items: [], subtotal: 0, tax: 0, total: 0 });
         },
       }),

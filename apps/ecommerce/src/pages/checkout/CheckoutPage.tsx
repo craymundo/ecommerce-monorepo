@@ -5,6 +5,7 @@ import "./CheckoutPage.css";
 import { CheckoutFormData, FormErrors } from "../../types/hooks.types";
 import { useCountries } from "../../hooks/api/useCountries";
 import { Button } from "ui-ecommerce";
+import { localStorageUtils } from "../../utils/localStorageUtils";
 
 const CheckoutPage = () => {
   const { items, total, subtotal, tax, clearCart } = useCartStore();
@@ -135,8 +136,8 @@ const CheckoutPage = () => {
         date: new Date().toISOString()
       };
 
-      const orders = JSON.parse(localStorage.getItem("orders") || "[]");
-      localStorage.setItem("orders", JSON.stringify([...orders, order]));
+      const orders = localStorageUtils.getItem<any[]>("orders") || [];
+      localStorageUtils.setItem("orders", [...orders, order]);
 
       clearCart();
       navigate(`/invoice/${order.id}`);

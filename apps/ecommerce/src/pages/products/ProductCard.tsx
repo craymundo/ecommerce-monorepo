@@ -13,6 +13,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const addToCart = useCartStore((state) => state.addItem);
 
   const handleAddToCart = () => {
+    console.log('Button clicked');
     try {
       addToCart(product.id);
     } catch (error) {
@@ -41,7 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </span>
         </div>
 
-        <Button variant="primary" size="md" onClick={handleAddToCart}>
+        <Button variant="primary" size="md" onClick={handleAddToCart}  disabled={product.stock === 0}>
           Agregar al Carrito
         </Button>
       </div>

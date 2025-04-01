@@ -1,11 +1,11 @@
-import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 import { ReactNode } from 'react';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
-export function renderWithRouter(ui: ReactNode) {
+export function renderWithRouter(ui: ReactNode, { route = '/' } = {}) {
   return render(
-    <BrowserRouter>
+    <MemoryRouter initialEntries={[route]}>
       {ui}
-    </BrowserRouter>
+    </MemoryRouter>
   );
 } 
